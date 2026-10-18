@@ -163,7 +163,7 @@ if st.session_state.search_results:
                 st.markdown(f"**Court:** `{case['court'].upper()}`")
                 st.caption(f"Snippet: ...{case['snippet']}...")
                 
-                chk = st.checkbox("Include in AI Memo", key=f"chk_{case['id']}", value=True)
+                chk = st.checkbox("Include in AI Memo", key=f"chk_{case['id']}_{idx}", value=True)
                 if chk:
                     selected_for_ai.append(case)
                 
