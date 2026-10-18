@@ -156,18 +156,19 @@ if st.session_state.search_results:
     # Tab 1: Cases Found
     with tab_results:
         st.caption(f"Found {len(st.session_state.search_results)} cases for selected jurisdiction.")
-        for case in st.session_state.search_results:
+        for idx, case in enumerate(st.session_state.search_results):
+            case_id = case['id'] if case['id'] is not None else f"idx_{idx}"
             with st.expander(f"**{case['case_name']}** ({case['date_filed'][:4] if case['date_filed'] else 'N/A'})"):
                 c_str = ", ".join(case['citations']) if case['citations'] else 'No official citation'
                 st.markdown(f"**Citation:** `{c_str}`")
                 st.markdown(f"**Court:** `{case['court'].upper()}`")
                 st.caption(f"Snippet: ...{case['snippet']}...")
                 
-                chk = st.checkbox("Include in AI Memo", key=f"chk_{case['id']}_{idx}", value=True)
+                chk = st.checkbox("Include in AI Memo", key=f"chk_{case_id}_{idx}", value=True)
                 if chk:
                     selected_for_ai.append(case)
                 
-                if st.button("Open Full Text", key=f"read_{case['id']}", use_container_width=True):
+                if st.button("Open Full Text", key=f"read_{case_id}_{idx}", use_container_width=True):
                     st.session_state.selected_opinion_id = case['opinion_id']
                     st.success("Case loaded into '📖 Case Reader' tab above!")
 
